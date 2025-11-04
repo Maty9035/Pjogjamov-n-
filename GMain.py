@@ -155,10 +155,15 @@ def reset_game():
 
 def show_winner_effect(winner):
     global game_over
-    blur_surface = screen.copy()
     clock = pygame.time.Clock()
 
-    # Efekt pomalého stmavení pozadí
+    # --- Nejprve necháme hráče vidět poslední tah 3 sekundy ---
+    draw_board()
+    pygame.display.flip()
+    pygame.time.delay(1000)  # 1 sekunda
+
+    # --- Efekt pomalého stmavení / rozmazání pozadí ---
+    blur_surface = screen.copy()
     for alpha in range(0, 160, 8):
         blur = pygame.Surface((WIDTH, HEIGHT))
         blur.fill((0, 0, 0))
@@ -200,11 +205,8 @@ def show_winner_effect(winner):
                 if restart_rect.collidepoint(x, y):
                     waiting = False
                     reset_game()
-        clock.tick(30)
 
-    game_over = False
-
-
+    game_over = False    
 
 def main():
     global current_player, game_over, winner
